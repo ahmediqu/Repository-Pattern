@@ -16,3 +16,5 @@ Route::get('/', function () {
 });
 
 Route::get('/subscribers','SubscribersController@index');
+Route::get('/subscribers/{pera}','SubscribersController@getBySearch');
+Route::post('/subscribers/filter','SubscribersController@filter');
