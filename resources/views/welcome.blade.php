@@ -31,17 +31,26 @@
 
             <div class="container p-5">
                 <h1 class="text-center text-muted my-4">Logic operator for date type field </h1> <hr>
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
                 <form action="{{url('/subscribers/filter')}}" class="my-4" method="post">
                     @csrf
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
-                                <input type="date" class="form-control" name="start">
+                                <input type="date" class="form-control" name="start" required>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <select name="filter" id="" class="form-control">
+                                <select name="filter" id="" class="form-control" required>
                                     <option value="before">Before</option>
                                     <option value="after">After</option>
                                     <option value="between">between</option>

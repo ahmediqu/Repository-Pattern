@@ -37,23 +37,45 @@ class SubscribersController extends Controller
     	$end = Carbon::parse($request->end);
     	$range = $request->filter;
 
-    	if(isset($start) && !empty($start) && isset($end) && !empty($end) && isset($range) && !empty($range == 'between')){
 
-    		$data['filter_data'] = $this->subsriberRepositories->dateRange($start,$end);
+    	$validatedData = $request->validate([
+		    'start' => ['required'],
+		    'filter' => ['required'],
+		]);
+		
+    	// if(isset($start) && !empty($start) && isset($end) && !empty($end) && isset($range) && !empty($range == 'between')){
 
-    	}elseif(isset($start) && !empty($start) && isset($range) && !empty($range == 'after')){
+    	// 	$data['filter_data'] = $this->subsriberRepositories->dateRange($start,$end);
 
-    		$data['filter_data'] = $this->subsriberRepositories->dateRangeafter($start);
+    	// }elseif(isset($start) && !empty($start) && isset($range) && !empty($range == 'after')){
 
-    	}elseif(isset($start) && !empty($start) && isset($range) && !empty($range == 'before')){
+    	// 	$data['filter_data'] = $this->subsriberRepositories->dateRangeafter($start);
 
-    		$data['filter_data'] = $this->subsriberRepositories->dateRangebefore($start);
+    	// }elseif(isset($start) && !empty($start) && isset($range) && !empty($range == 'before')){
 
-    	}else{
-    		echo "sorry";
+    	// 	$data['filter_data'] = $this->subsriberRepositories->dateRangebefore($start);
+
+    	// }else{
+    	// 	echo "sorry";
     		
-    	}
+    	// }
     	
+
+    	switch ($range) {
+    		case 'between':
+    			$data['filter_data'] = $this->subsriberRepositories->dateRange($start,$end);
+    			break;
+    		case 'after':
+    			$data['filter_data'] = $this->subsriberRepositories->dateRangeafter($start);
+    			break;
+    		case 'before':
+    			$data['filter_data'] = $this->subsriberRepositories->dateRangebefore($start);
+    			break;
+    		
+    		default:
+    			$data['filter_data'] = 'Not Match';
+    			break;
+    	}
     	
     	
 		return view('welcome',$data);
